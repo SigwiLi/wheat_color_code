@@ -1,0 +1,71 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+import sys
+#
+# image2 = input("Paste Image File: ")
+#
+#
+# def cal_Index(img):
+#     image = cv2.imread(img)
+#     print(image.shape)
+#
+#     # 1st channel
+#     c_1st = image[:, :, 0]
+#     c_2nd = image[:, :, 1]
+#     c_3rd = image[:, :, 2]
+#     indices = np.where( c_2nd == c_2nd.min())
+#     print(c_2nd[indices])
+#
+#     idx = (c_2nd - c_3rd)/(c_2nd + c_3rd - c_1st + 0.0000000000001)
+#     print(idx.shape)
+#
+#     hist = cv2.calcHist([image], [0], None, [256], [0,256])
+#     plt.plot(hist, color='b')
+#     plt.show()
+#     # idx_min = np.where( idx == idx.min())
+#     # print(idx[idx_min])
+#     # idx_max = np.where(idx == idx.max())
+#     # print(idx[idx_max])
+
+def img_mask(img):
+    image = cv2.imread(img)
+    hsvImage = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+
+    cv2.imshow('Original image',image)
+    cv2.imshow('HSV image', hsvImage)
+
+    lower_blue = np.array([20,100,100])
+    upper_blue = np.array([30,255,255])
+
+    mask = cv2.inRange(hsvImage, lower_blue, upper_blue)
+
+    result = cv2.bitwise_and(image,image, mask=mask)
+    number_of_pix = np.sum(mask)
+    number_of_white_pix = np.sum(mask == 255)
+    number_of_black_pix = np.sum(mask == 0)
+
+    print('Number of Pixels: ', number_of_pix)
+    print('Number of white Pixels: ', number_of_white_pix)
+    print('Number of black Pixels: ', number_of_black_pix)
+    print(image.shape)
+    cv2.imshow('Mask', mask)
+    cv2.imshow('Masked Image', result)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+
+
+def cover2hsv(img):
+    # some options about HSV
+    return
+
+
+
+if __name__ == '__main__':
+    img = ''
+
+    img_mask(img)
+
